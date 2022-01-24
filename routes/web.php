@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\AdminElectionController;
+use App\Http\Controllers\Backend\AdminPositionController;
 use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index']);
-Route::middleware('voter')->prefix('admin')->name('admin.')->group(function () {
-
+Route::middleware('admin')->prefix('/admin')->name('admin.')->group(function () {
+    Route::resource('elections', AdminElectionController::class);
+    Route::resource('positions', AdminPositionController::class);
     Route::get('/', [AdminController::class, 'index']);
 });
