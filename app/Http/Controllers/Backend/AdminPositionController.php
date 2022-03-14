@@ -16,7 +16,8 @@ class AdminPositionController extends Controller
      */
     public function index()
     {
-        return view('admin.positions.index');
+        $positions = Position::all();
+        return view('admin.positions.index', compact('positions'));
     }
 
     /**
@@ -26,8 +27,7 @@ class AdminPositionController extends Controller
      */
     public function create()
     {
-        $elections = Election::all();
-        return view('admin.positions.create', compact('elections'));
+        return view('admin.positions.create');
     }
 
     /**
@@ -40,10 +40,9 @@ class AdminPositionController extends Controller
     {
         $data = $request->validate([
             'name' => 'required',
-            'election_id' => 'required',
         ]);
         Position::create($data);
-        return view('admin.positions.index')->with('success', 'Position Created Sucessfully');
+        return redirect()->route('admin.positions.index')->with('success', 'Position Created Sucessfully');
     }
     /**
      * Display the specified resource.
@@ -64,8 +63,7 @@ class AdminPositionController extends Controller
      */
     public function edit(Position $position)
     {
-        $elections = Election::all();
-        return view('admin.positions.edit', compact('elections'));
+        return view('admin.positions.edit', compact('position'));
     }
 
     /**
@@ -79,10 +77,9 @@ class AdminPositionController extends Controller
     {
         $data = $request->validate([
             'name' => 'required',
-            'election_id' => 'required',
         ]);
         $position->update($data);
-        return view('admin.positions.index')->with('success', 'Position Edited Sucessfully');
+        return redirect()->route('admin.positions.index')->with('success', 'Position Edited Sucessfully');
     }
 
     /**
@@ -94,6 +91,7 @@ class AdminPositionController extends Controller
     public function destroy(Position $position)
     {
         $position->delete();
-        return view('admin.positions.index')->with('success', 'Position Deleted Sucessfully');
+        $position->candidates()->delete();
+        return redirect()->route('admin.positions.index')->with('success', 'Position Deleted Sucessfully');
     }
 }

@@ -11,4 +11,8 @@ class Position extends Model
     protected $fillable = [
         'name', 'election_id'
     ];
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class);
+    }
 }

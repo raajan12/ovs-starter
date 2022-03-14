@@ -18,7 +18,6 @@ class CreateElectionsTable extends Migration
             $table->string('name', 60)->nullable();
             $table->integer('status')->default(1);
             $table->timestamp('start');
-            $table->timestamp('end');
             $table->timestamps();
         });
     }

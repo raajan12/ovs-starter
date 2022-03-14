@@ -250,6 +250,11 @@ return [
             'url'  => 'admin/positions',
             'icon'        => 'fa fa-fw fa-certificate',
         ],
+        [
+            'text' => 'Candidates',
+            'url'  => 'admin/candidates',
+            'icon'        => 'fa fa-fw fa-user',
+        ],
 
     ],
 

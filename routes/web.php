@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\AdminCandidateController;
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\AdminElectionController;
 use App\Http\Controllers\Backend\AdminPositionController;
@@ -18,8 +19,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/results', [HomeController::class, 'results']);
+Route::middleware('auth')->group(function () {
+    Route::get('/election/{election}', [HomeController::class, 'showElection'])->name('showElection');
+    Route::post('/voteByUser', [HomeController::class, 'voteByUser'])->name('voteByUser');
+    Route::get('/myvotes', [HomeController::class, 'myvotes']);
+});
+
 Route::middleware('admin')->prefix('/admin')->name('admin.')->group(function () {
     Route::resource('elections', AdminElectionController::class);
     Route::resource('positions', AdminPositionController::class);
+    Route::resource('candidates', AdminCandidateController::class);
     Route::get('/', [AdminController::class, 'index']);
 });

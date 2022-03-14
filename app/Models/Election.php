@@ -9,6 +9,14 @@ class Election extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'status', 'start', 'end', 'name'
+        'status', 'start',  'name'
     ];
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class);
+    }
 }

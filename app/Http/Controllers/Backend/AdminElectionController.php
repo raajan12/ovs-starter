@@ -37,12 +37,17 @@ class AdminElectionController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = $request->validate([
             'name' => 'required',
             'status' => 'required',
             'start' => 'required',
-            'end' => 'required',
         ]);
+        $date = date('d.m.Y H:i');
+        $match_date = date('d.m.Y H:i', strtotime($data['start']));
+        if ($date >= $match_date) {
+            return redirect()->route('admin.elections.index')->with('error', 'Cannot set the election date for past');
+        }
         Election::create($data);
         return redirect()->route('admin.elections.index')->with('success', 'Election Created Sucessfully');
     }
@@ -82,10 +87,10 @@ class AdminElectionController extends Controller
             'name' => 'required',
             'status' => 'required',
             'start' => 'required',
-            'end' => 'required',
         ]);
+
         $election->update($data);
-        return view('admin.elections.index')->with('success', 'Election Edited Sucessfully');
+        return redirect()->route('admin.elections.index')->with('success', 'Election Edited');
     }
 
     /**
@@ -97,6 +102,8 @@ class AdminElectionController extends Controller
     public function destroy(Election $election)
     {
         $election->delete();
-        return view('admin.elections.index')->with('success', 'Election Deleted Sucessfully');
+        $election->candidates()->delete();
+        $election->votes()->delete();
+        return redirect()->route('admin.elections.index')->with('success', 'Election Deleted Sucessfully');
     }
 }

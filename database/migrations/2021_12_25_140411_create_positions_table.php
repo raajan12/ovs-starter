@@ -17,7 +17,6 @@ class CreatePositionsTable extends Migration
             $table->id();
             $table->string('name', 60);
             $table->timestamps();
-            $table->foreignId('election_id')->onDelete('cascade');
         });
     }
 

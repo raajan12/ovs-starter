@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePositionUserTable extends Migration
+class CreateVotesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreatePositionUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('position_user', function (Blueprint $table) {
-            $table->foreignId('position_id');
+        Schema::create('votes', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('user_id');
+            $table->foreignId('election_id');
+            $table->foreignId('candidate_id');
+            $table->foreignId('position_id')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ class CreatePositionUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('position_user');
+        Schema::dropIfExists('votes');
     }
 }

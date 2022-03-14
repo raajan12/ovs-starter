@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('admin.layouts.main')
 
 @section('title', 'Dashboard')
 
@@ -7,5 +7,6 @@
 @stop
 
 @section('content')
+    <x-alert />
     <p>Hi yall</p>
 @stop
